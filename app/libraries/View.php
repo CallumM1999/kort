@@ -24,6 +24,8 @@ class View {
         } else {
             self::normalView($path, $data);
         }
+
+        exit();
     }
 
     private static function buildDirPath($view) {

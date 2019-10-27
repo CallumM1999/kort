@@ -28,7 +28,13 @@
         }
 
         public function dashboard() {
-            echo "dashboard";
+            $routes = $this->redisModel->viewAllRoutes();
+
+            $data = [
+                "routes" => $routes
+            ];
+
+            View::render('dashboard', $data);
         }
 
         public function redirectPage($request, $params) {
