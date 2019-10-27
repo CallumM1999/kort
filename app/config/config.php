@@ -3,6 +3,9 @@
     // App base root
     define('APPROOT', dirname(dirname(__FILE__)));
 
+    // Vendor root
+    define('VENDORROOT', dirname(APPROOT) . '/vendor');
+
     // URL Root
     define('URLROOT', 'http://localhost/kort');
 

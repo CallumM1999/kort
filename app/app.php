@@ -20,6 +20,8 @@
             // Load middleware
             require_once APPROOT . '/middleware/Middleware.php';
 
+            require_once VENDORROOT . '/autoload.php';
+
             require_once APPROOT . '/routes.php';
 
             // If no route found

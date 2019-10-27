@@ -6,10 +6,17 @@
 
     class Base extends \Controller {
 
+        public function __construct() {
+            $this->redisModel = $this->redis('BaseRedis');
+        }
+
         public function index() {
+            $visits = $this->redisModel->getVisits();
+
             $data = [
                 "title" => "Eleganta",
-                "copy" => "A simple PHP MVC framework."
+                "copy" => "A simple PHP MVC framework.",
+                "visits" => $visits
             ];
 
             View::render('index', $data);
