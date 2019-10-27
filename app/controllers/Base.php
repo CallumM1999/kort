@@ -26,4 +26,12 @@
             http_response_code(404);
             View::render('notfound', ["title" => "404"]);
         }
+
+        public function dashboard() {
+            echo "dashboard";
+        }
+
+        public function redirectPage($request, $params) {
+            echo "id: " . $params['id'];
+        }
     }
