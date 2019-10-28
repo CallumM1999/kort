@@ -9,6 +9,8 @@
     // URL Root
     define('URLROOT', 'http://localhost/kort');
 
+    define('SITENAME', 'kort');
+
     // Database Config
     define('DB_HOST', '');
     define('DB_DATABASE', '');
