@@ -14,6 +14,6 @@
 
     Route::get('/routes/delete/{id}', 'Route@getDelete');
 
-    // Route::get('/url/{id}', 'Base@redirectPage');
+    Route::get('/page/{id}', 'Page');
 
     Route::any('*', 'Base@notfound');

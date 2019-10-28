@@ -47,29 +47,8 @@
         }
 
         public function deleteRoute($id) {
-            // $routes = $this->redis->lrange('user:'.$id, 0, -1);
-
-
             $this->redis->lrem('user:1', 1, $id);
-
             $this->redis->del('route:'.$id);
-            // lrem user:1 1 "2"
-
-            // print_r($routes);
-
-            // $index = false;
-
-            // foreach($routes as $i => $route) {
-            //     if ($route == $id) {
-            //         $index = $i;
-            //         break;
-            //     }
-            // }
-
-            // if ($index === false) return false;
-
-
-
         }
     }
 
