@@ -9,8 +9,8 @@
     <hr>
 
     <ul>
-        <li>Edit Route</li>
-        <li>Delete Route</li>
+        <li><a href="<?= URLROOT ?>/routes/edit/<?= $data['id'] ?>">Edit Route</a></li>
+        <li><a href="<?= URLROOT ?>/routes/delete/<?= $data['id'] ?>">Delete Route</a></li>
     </ul>
 
 @endsection

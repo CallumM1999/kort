@@ -8,6 +8,11 @@
 
     Route::get('/routes/add', 'Route@getAdd');
     Route::post('/routes/add', 'Route@postAdd');
+    
+    Route::get('/routes/edit/{id}', 'Route@getEdit');
+    Route::post('/routes/edit/{id}', 'Route@postEdit');
+
+    Route::get('/routes/delete/{id}', 'Route@getDelete');
 
     // Route::get('/url/{id}', 'Base@redirectPage');
 

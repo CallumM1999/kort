@@ -11,7 +11,8 @@
         }
 
         public function index($request, $params) {
-            $route = $this->redisModel->getRoute($params['id']);
+            $id = $params['id'];
+            $route = $this->redisModel->getRoute($id);
 
             $data = [
                "id" => $params['id'],
@@ -23,8 +24,7 @@
 
         public function getAdd() {
             $data = [
-                "url" => "",
-                "error" => ""
+                "url" => ""
             ];
 
             View::render('add', $data);
@@ -50,7 +50,56 @@
             $routeID = $this->redisModel->addRoute($url);
 
             // Route added
-            header('Location: ' . URLROOT . '/routes/view/' . $routeID);
+            header('Location: ' . URLROOT);
+        }
+
+        public function getEdit($request, $params) {
+            $id = $params['id'];
+
+            $route = $this->redisModel->getRoute($id);
+
+
+            $data = [
+                "url" => $route['url'],
+                "id" => $id
+            ];
+
+            View::render('edit', $data);
+        }
+
+        public function postEdit($request, $params) {
+            $id = $params['id'];
+            $error = "";
+
+            $url = $_POST['url'];
+
+            if ($url === '') {
+                $error = "please add a valid url";
+
+                $data = [
+                    "url" => $url,
+                    "error" => $error,
+                    "id" => $id
+                ];
+
+                View::render('edit', $data);
+            }
+
+            $this->redisModel->editRoute($url, $id);
+
+            // Route added
+            header('Location: ' . URLROOT . '/routes/view/' . $id);
+
+        }
+
+        public function getDelete($request, $params) {
+            $id = $params['id'];
+
+            $this->redisModel->deleteRoute($id);
+
+
+            header('Location: ' . URLROOT);
+
         }
     }
 

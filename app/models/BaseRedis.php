@@ -8,17 +8,22 @@
         }   
 
         public function addRoute($url) {
-            $routeID = $this->redis->incr('routeid');
+            $id = $this->redis->incr('routeid');
 
+            $this->redis->rpush('user:1', $id);
 
-            $this->redis->rpush('user:1', $routeID);
-
-            $this->redis->hmset('route:'.$routeID, [
+            $this->redis->hmset('route:'.$id, [
                 "url" => $url,
                 "owner" => "1"
             ]);
 
-            return $routeID;
+            return $id;
+        }
+
+        public function editRoute($url, $id) {
+            $this->redis->hmset('route:'.$id, [
+                "url" => $url
+            ]);
         }
 
         public function getRoute($id) {
@@ -26,10 +31,10 @@
         }
 
         public function viewAllRoutes() {
-            $ids = $this->redis->lrange('user:1', 0, -1);
+            $idList = $this->redis->lrange('user:1', 0, -1);
             $routes = [];
 
-            foreach($ids as $id) {
+            foreach($idList as $id) {
                 $route = $this->redis->hgetall('route:'.$id);
                 
                 $routes[] = [
@@ -39,6 +44,32 @@
             }
 
             return $routes;
+        }
+
+        public function deleteRoute($id) {
+            // $routes = $this->redis->lrange('user:'.$id, 0, -1);
+
+
+            $this->redis->lrem('user:1', 1, $id);
+
+            $this->redis->del('route:'.$id);
+            // lrem user:1 1 "2"
+
+            // print_r($routes);
+
+            // $index = false;
+
+            // foreach($routes as $i => $route) {
+            //     if ($route == $id) {
+            //         $index = $i;
+            //         break;
+            //     }
+            // }
+
+            // if ($index === false) return false;
+
+
+
         }
     }
 
