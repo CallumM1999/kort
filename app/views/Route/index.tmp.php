@@ -2,7 +2,10 @@
 
 @section('content')
 
-    <h1>Route <span style="color: hsl(100, 50%, 50%)">{{ $id }}</span></h1>
+    <h1>Route 
+        <span style="color: hsl(100, 50%, 50%)">{{ $id }}</span>
+        <a href="/kort/page/<?= $data['id'] ?>">/kort/page/<?= $data['id'] ?></a>
+    </h1>
 
     <hr>
         <p>{{ $url }}</p>
