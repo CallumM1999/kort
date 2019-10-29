@@ -14,6 +14,11 @@
             $id = $params['id'];
             $route = $this->redisModel->getRoute($id);
 
+            if (empty($route)) {
+                $data = [ "id" => $id ];
+                View::render('notfound', $data);
+            }
+
             $data = [
                "id" => $params['id'],
                "url" => $route['url']
@@ -58,6 +63,10 @@
 
             $route = $this->redisModel->getRoute($id);
 
+            if (empty($route)) {
+                $data = [ "id" => $id ];
+                View::render('notfound', $data);
+            }
 
             $data = [
                 "url" => $route['url'],
@@ -69,7 +78,13 @@
 
         public function postEdit($request, $params) {
             $id = $params['id'];
-            $error = "";
+
+            $route = $this->redisModel->getRoute($id);
+
+            if (empty($route)) {
+                $data = [ "id" => $id ];
+                View::render('notfound', $data);
+            }
 
             $url = $_POST['url'];
 
@@ -89,19 +104,18 @@
 
             // Route added
             header('Location: ' . URLROOT . '/routes/view/' . $id);
-
         }
 
         public function getDelete($request, $params) {
             $id = $params['id'];
 
-            $this->redisModel->deleteRoute($id);
+            $res = $this->redisModel->deleteRoute($id);
 
+            if (!$res) {
+                $data = [ "id" => $id ];
+                View::render('notfound', $data);
+            }
 
             header('Location: ' . URLROOT);
-
         }
     }
-
-
-    

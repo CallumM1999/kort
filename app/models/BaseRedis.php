@@ -47,8 +47,14 @@
         }
 
         public function deleteRoute($id) {
-            $this->redis->lrem('user:1', 1, $id);
-            $this->redis->del('route:'.$id);
+
+            $deleted = $this->redis->del('route:'.$id);
+
+            if ($deleted == 0) return false;
+
+            $removedFromList = $this->redis->lrem('user:1', 1, $id);
+
+            return $removedFromList == 1;
         }
     }
 
