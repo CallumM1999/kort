@@ -78,7 +78,13 @@
 
         public function postEdit($request, $params) {
             $id = $params['id'];
-            $error = "";
+
+            $route = $this->redisModel->getRoute($id);
+
+            if (empty($route)) {
+                $data = [ "id" => $id ];
+                View::render('notfound', $data);
+            }
 
             $url = $_POST['url'];
 
@@ -98,7 +104,6 @@
 
             // Route added
             header('Location: ' . URLROOT . '/routes/view/' . $id);
-
         }
 
         public function getDelete($request, $params) {
