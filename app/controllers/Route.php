@@ -63,6 +63,10 @@
 
             $route = $this->redisModel->getRoute($id);
 
+            if (empty($route)) {
+                $data = [ "id" => $id ];
+                View::render('notfound', $data);
+            }
 
             $data = [
                 "url" => $route['url'],
@@ -100,13 +104,13 @@
         public function getDelete($request, $params) {
             $id = $params['id'];
 
-            $this->redisModel->deleteRoute($id);
+            $res = $this->redisModel->deleteRoute($id);
 
+            if (!$res) {
+                $data = [ "id" => $id ];
+                View::render('notfound', $data);
+            }
 
             header('Location: ' . URLROOT);
-
         }
     }
-
-
-    
