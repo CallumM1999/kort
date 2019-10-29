@@ -14,6 +14,11 @@
             $id = $params['id'];
             $route = $this->redisModel->getRoute($id);
 
+            if (empty($route)) {
+                $data = [ "id" => $id ];
+                View::render('notfound', $data);
+            }
+
             $data = [
                "id" => $params['id'],
                "url" => $route['url']
