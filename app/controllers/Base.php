@@ -5,36 +5,14 @@
     use \View as View;
 
     class Base extends \Controller {
-
-        public function __construct() {
-            $this->redisModel = $this->redis('BaseRedis');
-        }
-
         public function index() {
-            $visits = $this->redisModel->getVisits();
-
-            $data = [
-                "title" => "Eleganta",
-                "copy" => "A simple PHP MVC framework.",
-                "visits" => $visits
-            ];
-
-            View::render('index', $data);
+            if (isset($_SESSION['id'])) header('Location: ' . URLROOT . '/routes');
+            View::render('index');
         }
 
         public function notfound() {
             http_response_code(404);
             View::render('notfound', ["title" => "404"]);
-        }
-
-        public function dashboard() {
-            $routes = $this->redisModel->viewAllRoutes();
-
-            $data = [
-                "routes" => $routes
-            ];
-
-            View::render('dashboard', $data);
         }
 
         public function redirectPage($request, $params) {

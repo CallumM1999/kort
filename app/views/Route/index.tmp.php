@@ -2,18 +2,19 @@
 
 @section('content')
 
-    <h1>Route 
-        <span style="color: hsl(100, 50%, 50%)">{{ $id }}</span>
-        <a href="<?= URLROOT ?>/page/<?= $data['id'] ?>">/<?= SITENAME ?>/page/<?= $data['id'] ?></a>
-    </h1>
+    <h1>Dashboard</h1>
 
     <hr>
-        <p>{{ $url }}</p>
-    <hr>
 
+    <h3>Links</h3>
     <ul>
-        <li><a href="<?= URLROOT ?>/routes/edit/<?= $data['id'] ?>">Edit Route</a></li>
-        <li><a href="<?= URLROOT ?>/routes/delete/<?= $data['id'] ?>">Delete Route</a></li>
+        @foreach($data['routes'] as $route)
+
+            <li><a href="<?= URLROOT ?>/routes/view/<?= $route['id'] ?>">Route: <?= $route['url'] ?></a></li>
+
+        @endforeach
     </ul>
+
+    <a href="<?= URLROOT ?>/routes/add">Add Route</a>
 
 @endsection

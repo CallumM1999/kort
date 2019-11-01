@@ -22,6 +22,8 @@
 
             require_once VENDORROOT . '/autoload.php';
 
+            session_start();
+
             require_once APPROOT . '/routes.php';
 
             // If no route found

@@ -10,11 +10,25 @@
             $this->redisModel = $this->redis('BaseRedis');
         }
 
-        public function index($request, $params) {
-            $id = $params['id'];
-            $route = $this->redisModel->getRoute($id);
+        public function index() {
+            $userID = $_SESSION['id'];
 
-            if (empty($route)) {
+            $routes = $this->redisModel->viewAllRoutes($userID);
+
+            $data = [
+                "routes" => $routes
+            ];
+
+            View::render('index', $data);
+        }
+
+         public function view($request, $params) {
+            $id = $params['id'];
+            $userID = $_SESSION['id'];
+
+            $route = $this->redisModel->getRoute($id, $userID);
+
+            if (empty($route) || !$route) {
                 $data = [ "id" => $id ];
                 View::render('notfound', $data);
             }
@@ -24,7 +38,7 @@
                "url" => $route['url']
             ];
 
-            View::render('index', $data);
+            View::render('view', $data);
         }
 
         public function getAdd() {
@@ -36,7 +50,7 @@
         }
 
         public function postAdd() {
-        
+            $userID = $_SESSION['id'];
             $error = "";
 
             $url = $_POST['url'];
@@ -52,16 +66,17 @@
                 View::render('add', $data);
             }
 
-            $routeID = $this->redisModel->addRoute($url);
+            $routeID = $this->redisModel->addRoute($url, $userID);
 
             // Route added
-            header('Location: ' . URLROOT);
+            header('Location: ' . URLROOT . '/routes');
         }
 
         public function getEdit($request, $params) {
             $id = $params['id'];
+            $userID = $_SESSION['id'];
 
-            $route = $this->redisModel->getRoute($id);
+            $route = $this->redisModel->getRoute($id, $userID);
 
             if (empty($route)) {
                 $data = [ "id" => $id ];
@@ -78,8 +93,9 @@
 
         public function postEdit($request, $params) {
             $id = $params['id'];
+            $userID = $_SESSION['id'];
 
-            $route = $this->redisModel->getRoute($id);
+            $route = $this->redisModel->getRoute($id, $userID);
 
             if (empty($route)) {
                 $data = [ "id" => $id ];
@@ -108,14 +124,15 @@
 
         public function getDelete($request, $params) {
             $id = $params['id'];
+            $userID = $_SESSION['id'];
 
-            $res = $this->redisModel->deleteRoute($id);
+            $res = $this->redisModel->deleteRoute($id, $userID);
 
             if (!$res) {
                 $data = [ "id" => $id ];
                 View::render('notfound', $data);
             }
 
-            header('Location: ' . URLROOT);
+            header('Location: ' . URLROOT . '/routes');
         }
     }
