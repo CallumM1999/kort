@@ -9,4 +9,12 @@
             
             return $this->db->single();
         }
+
+        public function createUser($email, $password) {
+            $this->db->query('INSERT INTO user (email, password) VALUES (:email, :password)');
+            $this->db->bind('email', $email);
+            $this->db->bind('password', $password);
+
+            return $this->db->execute();
+        }
     }
