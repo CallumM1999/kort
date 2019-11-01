@@ -2,6 +2,6 @@
 
 @section('content')
 
-    <p>Visits: {{ $visits }}</p>
+    <h1>Kort - home page</h1>
 
 @endsection

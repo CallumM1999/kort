@@ -2,8 +2,10 @@
 
     abstract class Middleware {
         public static function auth($request) {
-            $request['auth'] = true;
+            // is authenticated
+            if (isset($_SESSION['id'])) return $request;
             
-            return $request;
+            // not authenticated
+            header('Location: ' . URLROOT);
         }
     }

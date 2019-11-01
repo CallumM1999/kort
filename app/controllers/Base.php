@@ -11,15 +11,25 @@
         }
 
         public function index() {
-            $visits = $this->redisModel->getVisits();
+            if (isset($_SESSION['id'])) header('Location: /kort/dashboard');
+            View::render('index');
+        }
 
-            $data = [
-                "title" => "Eleganta",
-                "copy" => "A simple PHP MVC framework.",
-                "visits" => $visits
-            ];
+        public function login() {
+            $_SESSION['id'] = '1';
+            header('Location: /kort/');
+        }
 
-            View::render('index', $data);
+        public function logout() {
+            // delete session cookie
+            if (isset($_COOKIE[session_name()])) {
+                setcookie(session_name(), '', time()-3600, '/' );
+            }
+            // delete all session variables
+            $_SESSION = [];
+            // kill session
+            session_destroy();
+            header('Location: /kort/');
         }
 
         public function notfound() {
