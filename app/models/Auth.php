@@ -15,6 +15,14 @@
             $this->db->bind('email', $email);
             $this->db->bind('password', $password);
 
-            return $this->db->execute();
+            $response = $this->db->execute();
+
+            if (is_bool($response)) return $response;
+
+            if (strpos($response, 'Duplicate entry') !== false) {
+                return 'email taken';
+            }
+
+            return false;
         }
     }

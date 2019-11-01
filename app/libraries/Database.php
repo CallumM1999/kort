@@ -50,9 +50,14 @@
             $this->stmt->bindValue($param, $value, $type);
         }
 
-        // Execure the prepared statement
+        // Execute the prepared statement
         public function execute() {
-            return $this->stmt->execute();
+            try {
+                return $this->stmt->execute();
+            } catch(Exception $e) {
+                $errorMessage = $e->errorInfo[2];
+                return $errorMessage;
+            }
         }
 
         // Get result set as array of objects

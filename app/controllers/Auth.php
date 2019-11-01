@@ -100,8 +100,12 @@
 
             $response = $this->authModel->createUser($data['email'], $data['password']);
 
-            if (!response) {
-                $data['errors'][] = 'Something went wrong.';
+            if ($response !== true) {
+                if ($response === 'email taken') {
+                    $data['errors'][] = 'Email already taken';
+                } else {
+                    $data['errors'][] = 'Something went wrong.';
+                }
                 View::render('register', $data);
             }
 
