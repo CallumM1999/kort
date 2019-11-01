@@ -51,7 +51,7 @@
             }
 
             // Check password
-            if ($data['password'] !== $user->password) {
+            if (!password_verify($data['password'], $user->password)) {
                 $data['errors'][] = 'Invalid email or password combination.';
                 View::render('login', $data);
             }
@@ -97,6 +97,8 @@
             // Check if valid data was sent
             if (sizeof($data['errors']) > 0) View::render('register', $data);
 
+            // Hash password
+            $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
 
             $response = $this->authModel->createUser($data['email'], $data['password']);
 
