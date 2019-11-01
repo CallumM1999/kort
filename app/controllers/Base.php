@@ -15,23 +15,6 @@
             View::render('index');
         }
 
-        public function login() {
-            $_SESSION['id'] = '1';
-            header('Location: /kort/');
-        }
-
-        public function logout() {
-            // delete session cookie
-            if (isset($_COOKIE[session_name()])) {
-                setcookie(session_name(), '', time()-3600, '/' );
-            }
-            // delete all session variables
-            $_SESSION = [];
-            // kill session
-            session_destroy();
-            header('Location: /kort/');
-        }
-
         public function notfound() {
             http_response_code(404);
             View::render('notfound', ["title" => "404"]);

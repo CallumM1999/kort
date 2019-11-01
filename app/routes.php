@@ -2,8 +2,12 @@
 
     Route::get('/', 'Base');
 
-    Route::get('/login', 'Base@login');
-    Route::get('/logout', 'Base@logout');
+    Route::get('/login', 'Auth@getLogin');
+    Route::post('/login', 'Auth@postLogin');
+    Route::get('/register', 'Auth@getRegister');
+    Route::post('/register', 'Auth@postRegister');
+
+    Route::get('/logout', 'Auth@logout');
 
     Route::get('/dashboard', 'Middleware::auth', 'Base@dashboard');
 
