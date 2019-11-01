@@ -57,8 +57,8 @@
             }
 
             // Init session
-            $_SESSION['id'] = '1';
-            header('Location: ' . URLROOT . '/dashboard');
+            $_SESSION['id'] = $user->id;
+            header('Location: ' . URLROOT . '/routes');
         }
 
         public function getRegister() {

@@ -9,9 +9,9 @@
 
     Route::get('/logout', 'Auth@logout');
 
-    Route::get('/dashboard', 'Middleware::auth', 'Base@dashboard');
+    Route::get('/routes', 'Middleware::auth', 'Route');
 
-    Route::get('/routes/view/{id}', 'Middleware::auth', 'Route');
+    Route::get('/routes/view/{id}', 'Middleware::auth', 'Route@view');
 
     Route::get('/routes/add', 'Middleware::auth', 'Route@getAdd');
     Route::post('/routes/add', 'Middleware::auth', 'Route@postAdd');
