@@ -25,6 +25,7 @@
 
          public function view($request, $params) {
             $routeID = $params['id'];
+            $routeID = filter_var($routeID, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $userID = $_SESSION['id'];
 
             $route = $this->routeModel->getRoute($routeID, $userID);
@@ -42,11 +43,12 @@
             });
 
             $data = [
-               "id" => $params['id'],
+               "id" => $routeID,
                "name" => $route['name'],
                "url" => $route['url'],
                "enabled" => $route['enabled'],
-               "requests" => $requests
+               "requests" => $requests,
+               "base" => encodeURL($routeID)
             ];
 
             View::render('view', $data);
@@ -95,6 +97,7 @@
 
         public function getEdit($request, $params) {
             $routeID = $params['id'];
+            $routeID = filter_var($routeID, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $userID = $_SESSION['id'];
 
             $data = [
@@ -119,6 +122,7 @@
 
         public function postEdit($request, $params) {
             $routeID = $params['id'];
+            $routeID = filter_var($routeID, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $userID = $_SESSION['id'];
 
             $data = [
@@ -156,6 +160,7 @@
 
         public function getDelete($request, $params) {
             $id = $params['id'];
+            $routeID = filter_var($routeID, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $userID = $_SESSION['id'];
 
             $res = $this->routeModel->deleteRoute($id, $userID);

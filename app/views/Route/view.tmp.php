@@ -6,7 +6,7 @@
 
     <hr>
         <p><?= ($data['enabled'] ? 'enabled' : 'disabled') ?></p>
-        <p><a href="<?= URLROOT . '/page/' . $data['id'] ?>">
+        <p><a href="<?= URLROOT . '/page/' . $data['base'] ?>">
             <?= $data['url'] ?>
         </a></p>
         <p>Requests: <?= $data['requests'] ?></p>

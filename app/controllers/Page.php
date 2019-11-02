@@ -13,6 +13,9 @@
 
         public function index($request, $params) {
             $routeID = $params['id'];
+            $routeID = filter_var($routeID, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $routeID = decodeUrl($routeID);
+
             $route = $this->pageModel->getUrl($routeID);
 
             $data = [ 
@@ -23,7 +26,7 @@
             
             $url = $route['url'];
             $enabled = $route['enabled'];
-            
+
             // Route disabled
             if (!$enabled) View::render('notfound', $data);
 
