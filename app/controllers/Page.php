@@ -13,12 +13,19 @@
 
         public function index($request, $params) {
             $routeID = $params['id'];
-            $url = $this->pageModel->getUrl($routeID);
+            $route = $this->pageModel->getUrl($routeID);
 
-            if ($url === null) {
-                $data = [ "id" => $routeID ];
-                View::render('notfound', $data);
-            }
+            $data = [ 
+                "id" => $routeID
+            ];
+
+            if (empty($route)) View::render('notfound', $data);
+            
+            $url = $route['url'];
+            $enabled = $route['enabled'];
+            
+            // Route disabled
+            if (!$enabled) View::render('notfound', $data);
 
             // Round to last minute
             $time = time() - time() % 60;

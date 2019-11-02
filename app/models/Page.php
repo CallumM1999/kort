@@ -4,6 +4,6 @@
 
     class Page extends \BaseRedisModel {
         public function getUrl($routeID) {
-            return $this->redis->hget('route:'.$routeID, 'url');
+            return $this->redis->hgetall('route:'.$routeID);
         }
     }
