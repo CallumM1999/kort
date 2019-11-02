@@ -55,8 +55,7 @@
                "url" => $route['url'],
                "enabled" => $route['enabled'],
                "requests" => $requests,
-               "base" => encodeURL($routeID),
-               "title" => $route['name']
+               "base" => encodeURL($routeID)
             ];
 
             View::render('view', $data);

@@ -12,13 +12,6 @@
 
     <form action="<?= URLROOT ?>/routes/add" method="post">
         <div class="form-group">
-            <div class="form-check">
-                <input type="checkbox" name="enabled" id="enabled" class="form-check-input" <?= ($data['enabled']) ? 'checked' : '' ?>>
-                <label for="enabled" class="form-check-label">Enabled</label>
-            </div>
-        </div>
-
-        <div class="form-group">
             <label for="name">Name</label>
             <input class="form-control" type="text" name="name" id="name" value="<?= $data['name'] ?>">
         </div>
@@ -28,8 +21,10 @@
             <input class="form-control" type="text" name="url" id="url" value="<?= $data['url'] ?>">
         </div>
 
+        <br>
+
         <div class="form-group">
-            <input type="submit" value="Add">
+            <input class="btn btn-primary" type="submit" value="Add">
         </div>
     </form>
 

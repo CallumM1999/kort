@@ -12,13 +12,6 @@
 
     <form action="<?= URLROOT ?>/routes/edit/<?= $data['id'] ?>" method="post">
         <div class="form-group">
-            <div class="form-check">
-                <input type="checkbox" name="enabled" id="enabled" class="form-check-input" <?= ($data['enabled']) ? 'checked' : '' ?>>
-                <label for="enabled" class="form-check-label">Enabled</label>
-            </div>
-        </div>
-
-        <div class="form-group">
             <label for="name">Name</label>
             <input class="form-control" type="text" name="name" id="name" value="<?= $data['name'] ?>">
         </div>
@@ -29,7 +22,16 @@
         </div>
 
         <div class="form-group">
-            <input type="submit" value="Edit">
+            <div class="custom-control custom-switch">
+                <input type="checkbox" name="enabled" class="custom-control-input" id="customSwitches" <?= ($data['enabled']) ? 'checked' : '' ?>>
+                <label class="custom-control-label" for="customSwitches">Enable Route</label>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="form-group">
+            <input class="btn btn-primary" type="submit" value="Update">
         </div>
     </form>
 

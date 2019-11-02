@@ -15,7 +15,8 @@
                 "email" => "",
                 "password" => "",
                 "stay_logged" => false,
-                "errors" => []
+                "errors" => [],
+                "title" => "Login"
             ];
 
             View::render('login', $data);
@@ -28,7 +29,8 @@
                 "email" => filter_var($_POST['email'], FILTER_SANITIZE_EMAIL),
                 "password" => filter_var($_POST['password'], FILTER_SANITIZE_STRING),
                 "stay_logged" => $stay_logged,
-                "errors" => []
+                "errors" => [],
+                "title" => "Login"
             ];
 
             if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
@@ -67,7 +69,8 @@
                 "confirm_email" => "",
                 "password" => "",
                 "confirm_password" => "",
-                "errors" => []
+                "errors" => [],
+                "title" => "Register"
             ];
 
             View::render('register', $data);
@@ -79,7 +82,8 @@
                 "confirm_email" => filter_var($_POST['confirm_email'], FILTER_SANITIZE_EMAIL),
                 "password" => filter_var($_POST['password'], FILTER_SANITIZE_STRING),
                 "confirm_password" => filter_var($_POST['confirm_password'], FILTER_SANITIZE_STRING),
-                "errors" => []
+                "errors" => [],
+                "title" => "Register"
             ];
 
             if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
