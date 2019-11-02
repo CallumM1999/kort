@@ -1,18 +1,22 @@
-<nav class="navbar navbar-dark bg-dark flex-md-nowrap p-0 shadow mb-3">
-  <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="<?= URLROOT ?>"><?= SITENAME ?></a>
+<nav class="navbar navbar-dark bg-dark flex-md-nowrap p-1 shadow mb-3">
+  <div class="container">
+    <a class="navbar-brand m-0" href="<?= URLROOT ?>">
+      <h2 class="m-0"><?= SITENAME ?></h2>
+    </a>
 
-  <div class="container d-flex flex-column flex-md-row justify-content-end">
+    <div class="d-flex flex-column flex-md-row justify-content-end">
 
 
-    <?php if (isset($_SESSION['id'])): ?>
+      <?php if (isset($_SESSION['id'])): ?>
 
-      <a class="py-2 d-none d-md-inline-block text-white" href="<?= URLROOT ?>/logout">Logout</a>
+        <a class="py-2 d-md-inline-block text-white" href="<?= URLROOT ?>/logout">Logout</a>
 
-    <?php else: ?>
+      <?php else: ?>
 
-      <a class="py-2 d-none d-md-inline-block text-white" href="<?= URLROOT ?>/login">Login</a>
+        <a class="py-2 d-md-inline-block text-white" href="<?= URLROOT ?>/login">Login</a>
 
-    <?php endif; ?>
+      <?php endif; ?>
 
+    </div>
   </div>
 </nav>

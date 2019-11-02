@@ -2,9 +2,6 @@
 
 @section('content')
 
-    <h1><?= $data['name'] ?></h1>
-
-    <hr>
         <p><?= ($data['enabled'] ? 'enabled' : 'disabled') ?></p>
         <p><a href="<?= URLROOT . '/page/' . $data['base'] ?>">
             <?= $data['url'] ?>

@@ -2,10 +2,6 @@
 
 @section('content')
 
-    <h1>Dashboard</h1>
-
-    <hr>
-
     <h3>Links</h3>
     <ul>
         @foreach($data['routes'] as $route)

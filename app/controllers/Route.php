@@ -17,7 +17,8 @@
             $routes = $this->routeModel->viewAllRoutes($userID);
 
             $data = [
-                "routes" => $routes
+                "routes" => $routes,
+                "title" => "Dashboard"
             ];
 
             View::render('index', $data);
@@ -31,7 +32,9 @@
             $route = $this->routeModel->getRoute($routeID, $userID);
             
             if (empty($route) || !$route) {
-                $data = [ "id" => $routeID ];
+                $data = [
+                    "id" => $routeID
+                ];
                 View::render('notfound', $data);
             }
 
@@ -52,7 +55,8 @@
                "url" => $route['url'],
                "enabled" => $route['enabled'],
                "requests" => $requests,
-               "base" => encodeURL($routeID)
+               "base" => encodeURL($routeID),
+               "title" => $route['name']
             ];
 
             View::render('view', $data);
@@ -63,7 +67,8 @@
                 "name" => "",
                 "url" => "",
                 "enabled" => true,
-                "errors" => []
+                "errors" => [],
+                "title" => "Add Route"
             ];
 
             View::render('add', $data);
@@ -76,7 +81,8 @@
                 "name" => filter_var($_POST['name'], FILTER_SANITIZE_STRING),
                 "url" => filter_var($_POST['url'], FILTER_SANITIZE_URL),
                 "enabled" => isset($_POST['enabled']),
-                "errors" => []
+                "errors" => [],
+                "title" => "Add Route"
             ];
 
             if (strlen($data['name']) < 1 || strlen($data['name']) > 255) {
@@ -109,7 +115,8 @@
                 "url" => "",
                 "enabled" => true,
                 "errors" => [],
-                "id" => $routeID
+                "id" => $routeID,
+                "title" => "Edit Route"
             ];
 
             $route = $this->routeModel->getRoute($routeID, $userID);
@@ -134,7 +141,8 @@
                 "url" => filter_var($_POST['url'], FILTER_SANITIZE_URL),
                 "enabled" => isset($_POST['enabled']),
                 "errors" => [],
-                "id" => $routeID
+                "id" => $routeID,
+                "title" => "Edit Route"
             ];
 
             $route = $this->routeModel->getRoute($routeID, $userID);

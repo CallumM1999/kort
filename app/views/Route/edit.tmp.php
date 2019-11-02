@@ -1,12 +1,6 @@
 @extends('inc.base')
 
 @section('content')
-
-    <h1>Edit Route</h1>
-    <hr>
-
-    <br>
-
     <?php if (count($data['errors']) > 0): ?>
         <div class="alert alert-danger" role="alert">
             <h3><strong>Warning:</strong></h3>
