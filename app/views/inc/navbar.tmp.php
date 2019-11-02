@@ -1,4 +1,4 @@
-<nav class="navbar navbar-dark bg-dark flex-md-nowrap p-1 shadow mb-3">
+<nav class="navbar navbar-dark bg-dark flex-md-nowrap p-1 shadow">
   <div class="container">
     <a class="navbar-brand m-0" href="<?= URLROOT ?>">
       <h2 class="m-0"><?= SITENAME ?></h2>

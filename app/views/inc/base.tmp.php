@@ -1,6 +1,7 @@
 @include('inc.header')
 
-  <?php if(isset($data['title'])): ?>
+  <div class="container">
+    <?php if(isset($data['title'])): ?>
 
     <div class="mt-5">
       <h1><?= $data['title'] ?></h1>
@@ -8,8 +9,9 @@
       <br>
     </div>
 
-  <?php endif; ?>
+    <?php endif; ?>
 
-  @yield('content')
+    @yield('content')
+  </div>
 
 @include('inc.footer')
