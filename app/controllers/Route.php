@@ -8,6 +8,7 @@
 
         public function __construct() {
             $this->routeModel = $this->redis('Route');
+            $this->logModel = $this->redis('Log');
         }
 
         public function index() {
@@ -23,21 +24,29 @@
         }
 
          public function view($request, $params) {
-            $id = $params['id'];
+            $routeID = $params['id'];
             $userID = $_SESSION['id'];
 
-            $route = $this->routeModel->getRoute($id, $userID);
-
+            $route = $this->routeModel->getRoute($routeID, $userID);
+            
             if (empty($route) || !$route) {
-                $data = [ "id" => $id ];
+                $data = [ "id" => $routeID ];
                 View::render('notfound', $data);
             }
+
+            $logData = $this->logModel->getLogData($routeID);
+
+            // Format log data
+            $requests = array_reduce($logData, function($carry, $item) {
+                return $carry + $item;
+            });
 
             $data = [
                "id" => $params['id'],
                "name" => $route['name'],
                "url" => $route['url'],
-               "enabled" => $route['enabled']
+               "enabled" => $route['enabled'],
+               "requests" => $requests
             ];
 
             View::render('view', $data);

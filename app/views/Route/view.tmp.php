@@ -9,6 +9,7 @@
         <p><a href="<?= URLROOT . '/page/' . $data['id'] ?>">
             <?= $data['url'] ?>
         </a></p>
+        <p>Requests: <?= $data['requests'] ?></p>
     <hr>
 
     <ul>
