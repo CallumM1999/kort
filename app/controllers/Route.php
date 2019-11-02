@@ -113,8 +113,8 @@
             $userID = $_SESSION['id'];
 
             $data = [
-                "name" => $_POST['name'],
-                "url" => $_POST['url'],
+                "name" => filter_var($_POST['name'], FILTER_SANITIZE_STRING),
+                "url" => filter_var($_POST['url'], FILTER_SANITIZE_URL),
                 "enabled" => isset($_POST['enabled']),
                 "errors" => [],
                 "id" => $routeID
