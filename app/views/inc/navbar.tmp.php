@@ -9,6 +9,8 @@
 
       <?php if (isset($_SESSION['id'])): ?>
 
+        <a class="py-2 d-md-inline-block text-white mr-3" href="<?= URLROOT ?>">Home</a>
+        <a class="py-2 d-md-inline-block text-white mr-3" href="<?= URLROOT ?>/account">Account</a>
         <a class="py-2 d-md-inline-block text-white" href="<?= URLROOT ?>/logout">Logout</a>
 
       <?php else: ?>

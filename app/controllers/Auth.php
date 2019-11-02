@@ -8,6 +8,7 @@
 
         public function __construct() {
             $this->authModel = $this->model('Auth');
+            $this->routeModel = $this->redis('Route');
         }
 
         public function getLogin() {
@@ -129,6 +130,23 @@
             // kill session
             session_destroy();
             header('Location: /kort/');
+        }
+
+        public function account() {
+            $data = [
+                "title" => "Account Settings"
+            ];
+
+            View::render('account', $data);
+        }
+
+        public function deleteAccount() {
+            $userID = $_SESSION['id'];
+
+            $this->routeModel->deleteUser($userID);
+            $this->authModel->deleteUser($userID);
+
+            header('Location: ' . URLROOT . '/logout');
         }
 
     }

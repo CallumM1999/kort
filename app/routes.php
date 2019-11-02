@@ -7,6 +7,9 @@
     Route::get('/register', 'Auth@getRegister');
     Route::post('/register', 'Auth@postRegister');
 
+    Route::get('/account', 'Middleware::auth', 'Auth@account');
+    Route::post('/account/delete', 'Middleware::auth', 'Auth@deleteAccount');
+
     Route::get('/logout', 'Auth@logout');
 
     Route::get('/routes', 'Middleware::auth', 'Route');

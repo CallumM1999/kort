@@ -55,17 +55,35 @@
             return $routes;
         }
 
-        public function deleteRoute($id, $userID) {
+        public function deleteRoute($routeID, $userID) {
             // If we dont own the route, will return false;
-            $validRoute = $this->getRoute($id, $userID);
+            $validRoute = $this->getRoute($routeID, $userID);
             if (!$validRoute) return false;
 
-            $deleted = $this->redis->del('route:'.$id);
+            $deleted = $this->redis->del('route:'.$routeID);
 
             if ($deleted == 0) return false;
 
-            $removedFromList = $this->redis->lrem('user:'.$userID, 1, $id);
+            $removedFromList = $this->redis->lrem('user:'.$userID, 1, $routeID);
 
             return $removedFromList == 1;
+        }
+
+        public function deleteUser($userID) {
+            $userKey = 'user:' . $userID;
+
+            echo $userKey;
+
+            $routes = $this->redis->lrange($userKey, 0, -1);
+
+            print_r($routes);
+
+            // delete all routes
+            foreach($routes as $route) {
+                $this->deleteRoute($route, $userID);
+            }
+
+            // delete user lsit
+            $deleted = $this->redis->del($userKey);
         }
     }

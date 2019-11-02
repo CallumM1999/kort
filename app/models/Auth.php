@@ -25,4 +25,10 @@
 
             return false;
         }
+
+        public function deleteUser($userID) {
+            $this->db->query('DELETE FROM user WHERE id = :id');
+            $this->db->bind('id', $userID);
+            $this->db->execute();
+        }
     }

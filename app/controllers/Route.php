@@ -169,14 +169,14 @@
         }
 
         public function getDelete($request, $params) {
-            $id = $params['id'];
+            $routeID = $params['id'];
             $routeID = filter_var($routeID, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $userID = $_SESSION['id'];
 
             $res = $this->routeModel->deleteRoute($id, $userID);
 
             if (!$res) {
-                $data = [ "id" => $id ];
+                $data = [ "id" => $routeID ];
                 View::render('notfound', $data);
             }
 

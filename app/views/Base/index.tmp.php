@@ -5,7 +5,7 @@
     <div class="jumbotron jumbotron-fluid" style="background-color: hsl(208, 16%, 50%)">
         <div class="container">
             <h1 class="display-3 text-white">Kort</h1>
-            <p class="lead text-white">Friendly Links</p>
+            <p class="lead text-white">Make Links Great Again</p>
         </div>
     </div>
 
