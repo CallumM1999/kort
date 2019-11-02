@@ -85,53 +85,64 @@
         }
 
         public function getEdit($request, $params) {
-            $id = $params['id'];
+            $routeID = $params['id'];
             $userID = $_SESSION['id'];
 
-            $route = $this->redisModel->getRoute($id, $userID);
-
-            if (empty($route)) {
-                $data = [ "id" => $id ];
-                View::render('notfound', $data);
-            }
-
             $data = [
-                "url" => $route['url'],
-                "id" => $id
+                "name" => "",
+                "url" => "",
+                "enabled" => true,
+                "errors" => [],
+                "id" => $routeID
             ];
+
+            $route = $this->redisModel->getRoute($routeID, $userID);
+
+            // Route Not found
+            if (empty($route) || !$route) View::render('notfound', $data);
+
+            $data['name'] = $route['name'];
+            $data['url'] = $route['url'];
+            $data['enabled'] = $route['enabled'];
 
             View::render('edit', $data);
         }
 
         public function postEdit($request, $params) {
-            $id = $params['id'];
+            $routeID = $params['id'];
             $userID = $_SESSION['id'];
 
-            $route = $this->redisModel->getRoute($id, $userID);
+            $data = [
+                "name" => $_POST['name'],
+                "url" => $_POST['url'],
+                "enabled" => isset($_POST['enabled']),
+                "errors" => [],
+                "id" => $routeID
+            ];
 
-            if (empty($route)) {
-                $data = [ "id" => $id ];
-                View::render('notfound', $data);
+            $route = $this->redisModel->getRoute($routeID, $userID);
+            
+            // Route not found
+            if (empty($route) || !$route) View::render('notfound', $data);
+
+
+            if (strlen($data['name']) < 1 || strlen($data['name']) > 255) {
+                $data['errors'][] = 'Name field must be between 1-255 characters.';
+            } else if (!preg_match('/^[a-zA-Z0-9 ]*$/m', $data['name'])) {
+                $data['errors'][] = 'Name field can only contain letters and numbers.';
             }
 
-            $url = $_POST['url'];
-
-            if ($url === '') {
-                $error = "please add a valid url";
-
-                $data = [
-                    "url" => $url,
-                    "error" => $error,
-                    "id" => $id
-                ];
-
-                View::render('edit', $data);
+            if (!filter_var($data['url'], FILTER_VALIDATE_URL)) {
+                $data['errors'][] = 'Invalid URL';
             }
 
-            $this->redisModel->editRoute($url, $id);
+            // There cannot be errors
+            if (count($data['errors']) > 0) View::render('edit', $data);
 
-            // Route added
-            header('Location: ' . URLROOT . '/routes/view/' . $id);
+            $this->redisModel->editRoute($routeID, $data['name'], $data['url'], $data['enabled']);
+
+            // Route updated
+            header('Location: ' . URLROOT . '/routes/view/' . $routeID);
         }
 
         public function getDelete($request, $params) {

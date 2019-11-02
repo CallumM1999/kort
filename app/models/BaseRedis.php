@@ -18,9 +18,11 @@
             return $id;
         }
 
-        public function editRoute($url, $id) {
-            $this->redis->hmset('route:'.$id, [
-                "url" => $url
+        public function editRoute($routeID, $name, $url, $enabled) {
+            $this->redis->hmset('route:'.$routeID, [
+                "name" => $name,
+                "url" => $url,
+                "enabled" => $enabled
             ]);
         }
 

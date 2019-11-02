@@ -10,7 +10,10 @@
     <ul>
         @foreach($data['routes'] as $route)
 
-            <li><a href="<?= URLROOT ?>/routes/view/<?= $route['id'] ?>">Route: <?= $route['url'] ?></a></li>
+            <li><a href="<?= URLROOT ?>/routes/view/<?= $route['id'] ?>">
+                [<?= ($route['enabled'] ? 'enabled' : 'disabled') ?>] 
+                <?= $route['name'] ?>
+            </a></li>
 
         @endforeach
     </ul>
