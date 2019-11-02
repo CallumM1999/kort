@@ -35,7 +35,9 @@
 
             $data = [
                "id" => $params['id'],
-               "url" => $route['url']
+               "name" => $route['name'],
+               "url" => $route['url'],
+               "enabled" => $route['enabled']
             ];
 
             View::render('view', $data);
@@ -43,7 +45,10 @@
 
         public function getAdd() {
             $data = [
-                "url" => ""
+                "name" => "",
+                "url" => "",
+                "enabled" => true,
+                "errors" => []
             ];
 
             View::render('add', $data);
@@ -51,22 +56,29 @@
 
         public function postAdd() {
             $userID = $_SESSION['id'];
-            $error = "";
+            
+            $data = [
+                "name" => filter_var($_POST['name'], FILTER_SANITIZE_STRING),
+                "url" => filter_var($_POST['url'], FILTER_SANITIZE_URL),
+                "enabled" => isset($_POST['enabled']),
+                "errors" => []
+            ];
 
-            $url = $_POST['url'];
-
-            if ($url === '') {
-                $error = "please add a valid url";
-
-                $data = [
-                    "url" => $url,
-                    "error" => $error
-                ];
-
-                View::render('add', $data);
+            if (strlen($data['name']) < 1 || strlen($data['name']) > 255) {
+                $data['errors'][] = 'Name field must be between 1-255 characters.';
+            } else if (!preg_match('/^[a-zA-Z0-9 ]*$/m', $data['name'])) {
+                $data['errors'][] = 'Name field can only contain letters and numbers.';
             }
 
-            $routeID = $this->redisModel->addRoute($url, $userID);
+            if (!filter_var($data['url'], FILTER_VALIDATE_URL)) {
+                $data['errors'][] = 'Invalid URL';
+            }
+
+            // There cannot be errors
+            if (count($data['errors']) > 0) View::render('add', $data);
+
+            // Valid, add route
+            $routeID = $this->redisModel->addRoute($userID, $data['name'], $data['url'], $data['enabled']);
 
             // Route added
             header('Location: ' . URLROOT . '/routes');
