@@ -7,13 +7,13 @@
     class Route extends \Controller {
 
         public function __construct() {
-            $this->redisModel = $this->redis('BaseRedis');
+            $this->routeModel = $this->redis('Route');
         }
 
         public function index() {
             $userID = $_SESSION['id'];
 
-            $routes = $this->redisModel->viewAllRoutes($userID);
+            $routes = $this->routeModel->viewAllRoutes($userID);
 
             $data = [
                 "routes" => $routes
@@ -26,7 +26,7 @@
             $id = $params['id'];
             $userID = $_SESSION['id'];
 
-            $route = $this->redisModel->getRoute($id, $userID);
+            $route = $this->routeModel->getRoute($id, $userID);
 
             if (empty($route) || !$route) {
                 $data = [ "id" => $id ];
@@ -78,7 +78,7 @@
             if (count($data['errors']) > 0) View::render('add', $data);
 
             // Valid, add route
-            $routeID = $this->redisModel->addRoute($userID, $data['name'], $data['url'], $data['enabled']);
+            $routeID = $this->routeModel->addRoute($userID, $data['name'], $data['url'], $data['enabled']);
 
             // Route added
             header('Location: ' . URLROOT . '/routes');
@@ -96,7 +96,7 @@
                 "id" => $routeID
             ];
 
-            $route = $this->redisModel->getRoute($routeID, $userID);
+            $route = $this->routeModel->getRoute($routeID, $userID);
 
             // Route Not found
             if (empty($route) || !$route) View::render('notfound', $data);
@@ -120,7 +120,7 @@
                 "id" => $routeID
             ];
 
-            $route = $this->redisModel->getRoute($routeID, $userID);
+            $route = $this->routeModel->getRoute($routeID, $userID);
             
             // Route not found
             if (empty($route) || !$route) View::render('notfound', $data);
@@ -139,7 +139,7 @@
             // There cannot be errors
             if (count($data['errors']) > 0) View::render('edit', $data);
 
-            $this->redisModel->editRoute($routeID, $data['name'], $data['url'], $data['enabled']);
+            $this->routeModel->editRoute($routeID, $data['name'], $data['url'], $data['enabled']);
 
             // Route updated
             header('Location: ' . URLROOT . '/routes/view/' . $routeID);
@@ -149,7 +149,7 @@
             $id = $params['id'];
             $userID = $_SESSION['id'];
 
-            $res = $this->redisModel->deleteRoute($id, $userID);
+            $res = $this->routeModel->deleteRoute($id, $userID);
 
             if (!$res) {
                 $data = [ "id" => $id ];

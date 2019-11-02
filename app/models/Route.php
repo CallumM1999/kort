@@ -2,7 +2,7 @@
 
     namespace Model;
 
-    class BaseRedis extends \BaseRedisModel {
+    class Route extends \BaseRedisModel {
         public function addRoute($userID, $name, $url, $enabled) {
             $routeID = $this->redis->incr('routeid');
 

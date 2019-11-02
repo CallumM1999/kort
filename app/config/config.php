@@ -7,7 +7,7 @@
     define('VENDORROOT', dirname(APPROOT) . '/vendor');
 
     // URL Root
-    define('URLROOT', 'http://localhost/kort');
+    define('URLROOT', 'http://192.168.0.11/kort');
 
     define('SITENAME', 'kort');
 
