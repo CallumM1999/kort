@@ -2,13 +2,14 @@
 
 @section('content')
 
-    <h1>Route 
-        <span style="color: hsl(100, 50%, 50%)">{{ $id }}</span>
-        <a href="<?= URLROOT ?>/page/<?= $data['id'] ?>">/<?= SITENAME ?>/page/<?= $data['id'] ?></a>
-    </h1>
+    <h1><?= $data['name'] ?></h1>
 
     <hr>
-        <p>{{ $url }}</p>
+        <p><?= ($data['enabled'] ? 'enabled' : 'disabled') ?></p>
+        <p><a href="<?= URLROOT . '/page/' . $data['base'] ?>">
+            <?= $data['url'] ?>
+        </a></p>
+        <p>Requests: <?= $data['requests'] ?></p>
     <hr>
 
     <ul>

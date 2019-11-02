@@ -2,23 +2,27 @@
 
     namespace Model;
 
-    class BaseRedis extends \BaseRedisModel {
-        public function addRoute($url, $userID) {
-            $id = $this->redis->incr('routeid');
+    class Route extends \BaseRedisModel {
+        public function addRoute($userID, $name, $url, $enabled) {
+            $routeID = $this->redis->incr('routeid');
 
-            $this->redis->rpush('user:'.$userID, $id);
+            $this->redis->rpush('user:'.$userID, $routeID);
 
-            $this->redis->hmset('route:'.$id, [
+            $this->redis->hmset('route:'.$routeID, [
+                "name" => $name,
                 "url" => $url,
+                "enabled" => $enabled,
                 "owner" => $userID
             ]);
 
             return $id;
         }
 
-        public function editRoute($url, $id) {
-            $this->redis->hmset('route:'.$id, [
-                "url" => $url
+        public function editRoute($routeID, $name, $url, $enabled) {
+            $this->redis->hmset('route:'.$routeID, [
+                "name" => $name,
+                "url" => $url,
+                "enabled" => $enabled
             ]);
         }
 
@@ -41,7 +45,9 @@
                 $route = $this->redis->hgetall('route:'.$id);
                 
                 $routes[] = [
+                    "name" => $route['name'],
                     "url" => $route['url'],
+                    "enabled" => $route['enabled'],
                     "id" => $id
                 ];
             }

@@ -7,13 +7,14 @@
     class Route extends \Controller {
 
         public function __construct() {
-            $this->redisModel = $this->redis('BaseRedis');
+            $this->routeModel = $this->redis('Route');
+            $this->logModel = $this->redis('Log');
         }
 
         public function index() {
             $userID = $_SESSION['id'];
 
-            $routes = $this->redisModel->viewAllRoutes($userID);
+            $routes = $this->routeModel->viewAllRoutes($userID);
 
             $data = [
                 "routes" => $routes
@@ -23,19 +24,31 @@
         }
 
          public function view($request, $params) {
-            $id = $params['id'];
+            $routeID = $params['id'];
+            $routeID = filter_var($routeID, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $userID = $_SESSION['id'];
 
-            $route = $this->redisModel->getRoute($id, $userID);
-
+            $route = $this->routeModel->getRoute($routeID, $userID);
+            
             if (empty($route) || !$route) {
-                $data = [ "id" => $id ];
+                $data = [ "id" => $routeID ];
                 View::render('notfound', $data);
             }
 
+            $logData = $this->logModel->getLogData($routeID);
+
+            // Format log data
+            $requests = array_reduce($logData, function($carry, $item) {
+                return $carry + $item;
+            });
+
             $data = [
-               "id" => $params['id'],
-               "url" => $route['url']
+               "id" => $routeID,
+               "name" => $route['name'],
+               "url" => $route['url'],
+               "enabled" => $route['enabled'],
+               "requests" => $requests,
+               "base" => encodeURL($routeID)
             ];
 
             View::render('view', $data);
@@ -43,7 +56,10 @@
 
         public function getAdd() {
             $data = [
-                "url" => ""
+                "name" => "",
+                "url" => "",
+                "enabled" => true,
+                "errors" => []
             ];
 
             View::render('add', $data);
@@ -51,82 +67,103 @@
 
         public function postAdd() {
             $userID = $_SESSION['id'];
-            $error = "";
+            
+            $data = [
+                "name" => filter_var($_POST['name'], FILTER_SANITIZE_STRING),
+                "url" => filter_var($_POST['url'], FILTER_SANITIZE_URL),
+                "enabled" => isset($_POST['enabled']),
+                "errors" => []
+            ];
 
-            $url = $_POST['url'];
-
-            if ($url === '') {
-                $error = "please add a valid url";
-
-                $data = [
-                    "url" => $url,
-                    "error" => $error
-                ];
-
-                View::render('add', $data);
+            if (strlen($data['name']) < 1 || strlen($data['name']) > 255) {
+                $data['errors'][] = 'Name field must be between 1-255 characters.';
+            } else if (!preg_match('/^[a-zA-Z0-9 ]*$/m', $data['name'])) {
+                $data['errors'][] = 'Name field can only contain letters and numbers.';
             }
 
-            $routeID = $this->redisModel->addRoute($url, $userID);
+            if (!filter_var($data['url'], FILTER_VALIDATE_URL)) {
+                $data['errors'][] = 'Invalid URL';
+            }
+
+            // There cannot be errors
+            if (count($data['errors']) > 0) View::render('add', $data);
+
+            // Valid, add route
+            $routeID = $this->routeModel->addRoute($userID, $data['name'], $data['url'], $data['enabled']);
 
             // Route added
             header('Location: ' . URLROOT . '/routes');
         }
 
         public function getEdit($request, $params) {
-            $id = $params['id'];
+            $routeID = $params['id'];
+            $routeID = filter_var($routeID, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $userID = $_SESSION['id'];
 
-            $route = $this->redisModel->getRoute($id, $userID);
-
-            if (empty($route)) {
-                $data = [ "id" => $id ];
-                View::render('notfound', $data);
-            }
-
             $data = [
-                "url" => $route['url'],
-                "id" => $id
+                "name" => "",
+                "url" => "",
+                "enabled" => true,
+                "errors" => [],
+                "id" => $routeID
             ];
+
+            $route = $this->routeModel->getRoute($routeID, $userID);
+
+            // Route Not found
+            if (empty($route) || !$route) View::render('notfound', $data);
+
+            $data['name'] = $route['name'];
+            $data['url'] = $route['url'];
+            $data['enabled'] = $route['enabled'];
 
             View::render('edit', $data);
         }
 
         public function postEdit($request, $params) {
-            $id = $params['id'];
+            $routeID = $params['id'];
+            $routeID = filter_var($routeID, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $userID = $_SESSION['id'];
 
-            $route = $this->redisModel->getRoute($id, $userID);
+            $data = [
+                "name" => filter_var($_POST['name'], FILTER_SANITIZE_STRING),
+                "url" => filter_var($_POST['url'], FILTER_SANITIZE_URL),
+                "enabled" => isset($_POST['enabled']),
+                "errors" => [],
+                "id" => $routeID
+            ];
 
-            if (empty($route)) {
-                $data = [ "id" => $id ];
-                View::render('notfound', $data);
+            $route = $this->routeModel->getRoute($routeID, $userID);
+            
+            // Route not found
+            if (empty($route) || !$route) View::render('notfound', $data);
+
+
+            if (strlen($data['name']) < 1 || strlen($data['name']) > 255) {
+                $data['errors'][] = 'Name field must be between 1-255 characters.';
+            } else if (!preg_match('/^[a-zA-Z0-9 ]*$/m', $data['name'])) {
+                $data['errors'][] = 'Name field can only contain letters and numbers.';
             }
 
-            $url = $_POST['url'];
-
-            if ($url === '') {
-                $error = "please add a valid url";
-
-                $data = [
-                    "url" => $url,
-                    "error" => $error,
-                    "id" => $id
-                ];
-
-                View::render('edit', $data);
+            if (!filter_var($data['url'], FILTER_VALIDATE_URL)) {
+                $data['errors'][] = 'Invalid URL';
             }
 
-            $this->redisModel->editRoute($url, $id);
+            // There cannot be errors
+            if (count($data['errors']) > 0) View::render('edit', $data);
 
-            // Route added
-            header('Location: ' . URLROOT . '/routes/view/' . $id);
+            $this->routeModel->editRoute($routeID, $data['name'], $data['url'], $data['enabled']);
+
+            // Route updated
+            header('Location: ' . URLROOT . '/routes/view/' . $routeID);
         }
 
         public function getDelete($request, $params) {
             $id = $params['id'];
+            $routeID = filter_var($routeID, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $userID = $_SESSION['id'];
 
-            $res = $this->redisModel->deleteRoute($id, $userID);
+            $res = $this->routeModel->deleteRoute($id, $userID);
 
             if (!$res) {
                 $data = [ "id" => $id ];

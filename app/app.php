@@ -22,6 +22,8 @@
 
             require_once VENDORROOT . '/autoload.php';
 
+            require_once APPROOT . '/helpers/helpers.php';
+
             session_start();
 
             require_once APPROOT . '/routes.php';
