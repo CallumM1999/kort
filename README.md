@@ -5,4 +5,3 @@
 ## Todo
 
 - Build page request data info page (IE number of page requests).
-- Redis persistent storage.
