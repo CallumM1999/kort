@@ -37,11 +37,15 @@
 
             $logData = $this->logModel->getLogData($routeID);
 
-            // Format log data
-            $requests = array_reduce($logData, function($carry, $item) {
-                return $carry + $item;
-            });
+            // Count number of requests
+            $requests = 0;
 
+            if (count($logData) > 0) {
+                $requests = array_reduce($logData, function($carry, $item) {
+                    return $carry + $item;
+                });
+            }
+            
             $data = [
                "id" => $routeID,
                "name" => $route['name'],
