@@ -3,7 +3,7 @@
     namespace Model;
 
     class Route extends \BaseRedisModel {
-        public function addRoute($userID, $name, $url, $enabled) {
+        public function addRoute($userID, $name, $url) {
             $routeID = $this->redis->incr('routeid');
 
             $this->redis->rpush('user:'.$userID, $routeID);
@@ -11,7 +11,7 @@
             $this->redis->hmset('route:'.$routeID, [
                 "name" => $name,
                 "url" => $url,
-                "enabled" => $enabled,
+                "enabled" => true,
                 "owner" => $userID
             ]);
 

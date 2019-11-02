@@ -79,26 +79,25 @@
             $data = [
                 "name" => filter_var($_POST['name'], FILTER_SANITIZE_STRING),
                 "url" => filter_var($_POST['url'], FILTER_SANITIZE_URL),
-                "enabled" => isset($_POST['enabled']),
                 "errors" => [],
                 "title" => "Add Route"
             ];
 
             if (strlen($data['name']) < 1 || strlen($data['name']) > 255) {
-                $data['errors'][] = 'Name field must be between 1-255 characters.';
+                $data['errors']['name'] = 'Name field must be between 1-255 characters.';
             } else if (!preg_match('/^[a-zA-Z0-9 ]*$/m', $data['name'])) {
-                $data['errors'][] = 'Name field can only contain letters and numbers.';
+                $data['errors']['name'] = 'Name field can only contain letters and numbers.';
             }
 
             if (!filter_var($data['url'], FILTER_VALIDATE_URL)) {
-                $data['errors'][] = 'Invalid URL';
+                $data['errors']['url'] = 'Invalid URL';
             }
 
             // There cannot be errors
             if (count($data['errors']) > 0) View::render('add', $data);
 
             // Valid, add route
-            $routeID = $this->routeModel->addRoute($userID, $data['name'], $data['url'], $data['enabled']);
+            $routeID = $this->routeModel->addRoute($userID, $data['name'], $data['url']);
 
             // Route added
             header('Location: ' . URLROOT . '/routes');
@@ -151,13 +150,13 @@
 
 
             if (strlen($data['name']) < 1 || strlen($data['name']) > 255) {
-                $data['errors'][] = 'Name field must be between 1-255 characters.';
+                $data['errors']['name'] = 'Name field must be between 1-255 characters.';
             } else if (!preg_match('/^[a-zA-Z0-9 ]*$/m', $data['name'])) {
-                $data['errors'][] = 'Name field can only contain letters and numbers.';
+                $data['errors']['name'] = 'Name field can only contain letters and numbers.';
             }
 
             if (!filter_var($data['url'], FILTER_VALIDATE_URL)) {
-                $data['errors'][] = 'Invalid URL';
+                $data['errors']['url'] = 'Invalid URL';
             }
 
             // There cannot be errors

@@ -34,11 +34,11 @@
             ];
 
             if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-                $data['errors'][] = 'Enter a valid email.';
+                $data['errors']['email'] = 'Enter a valid email.';
             }
 
             if ($data['password'] === '') {
-                $data['errors'][] = 'Enter a valid password.';
+                $data['errors']['password'] = 'Enter a valid password.';
             }
 
             // Check if valid data was sent
@@ -48,13 +48,13 @@
 
             // Check if user was found
             if (!isset($user->id)) {
-                $data['errors'][] = 'Invalid email or password combination.';
+                $data['errors']['main'] = 'Invalid email or password.';
                 View::render('login', $data);
             }
 
             // Check password
             if (!password_verify($data['password'], $user->password)) {
-                $data['errors'][] = 'Invalid email or password combination.';
+                $data['errors']['main'] = 'Invalid email or password.';
                 View::render('login', $data);
             }
 
@@ -87,15 +87,15 @@
             ];
 
             if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-                $data['errors'][] = 'Enter a valid email.';
+                $data['errors']['email'] = 'Enter a valid email.';
             } else if ($data['email'] !== $data['confirm_email']) {
-                $data['errors'][] = 'Email field must match.';
+                $data['errors']['confirm_email'] = 'Email field must match.';
             }
 
             if (!(strlen($data['password']) >= 8 && strlen($data['password']) <= 100)) {
-                $data['errors'][] = 'Password must be between 8-100 characters.';
+                $data['errors']['password'] = 'Password must be between 8-100 characters.';
             } else if ($data['password'] !== $data['confirm_password']) {
-                $data['errors'][] = 'Password field must match.';
+                $data['errors']['confirm_password'] = 'Password field must match.';
             }
 
             // Check if valid data was sent
@@ -108,9 +108,9 @@
 
             if ($response !== true) {
                 if ($response === 'email taken') {
-                    $data['errors'][] = 'Email already taken';
+                    $data['errors']['main'] = 'Email already taken';
                 } else {
-                    $data['errors'][] = 'Something went wrong.';
+                    $data['errors']['main'] = 'Something went wrong.';
                 }
                 View::render('register', $data);
             }

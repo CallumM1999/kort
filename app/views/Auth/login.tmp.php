@@ -2,26 +2,34 @@
 
 @section('content')
   
-    <?php if (count($data['errors']) > 0): ?>
-    <div class="alert alert-danger" role="alert">
-        <h3><strong>Warning:</strong></h3>
-        <?php foreach ($data['errors'] as $error): ?>
-            <p style="margin: 0"><?= $error ?></p>
-        <?php endforeach; ?>
-    </div>
+    <?php if(array_key_exists('main', $data['errors'])): ?>
+        <div class="alert alert-danger" role="alert">
+            <?= $data['errors']['main'] ?>
+        </div>
     <?php endif; ?>
-
 
     <form action="<?= URLROOT ?>/login" method="post">
 
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="text" name="email" id="email" class="form-control" value="<?= $data['email'] ?>">
+            <input type="text" name="email" id="email" 
+                class="form-control <?= (array_key_exists('email', $data['errors'])) ? 'is-invalid' : '' ?>" 
+                value="<?= $data['email'] ?>"
+            >
+            <?php if (array_key_exists('email', $data['errors'])): ?>
+                <div class="invalid-feedback"><?= $data['errors']['email'] ?></div>
+            <?php endif; ?>
         </div>
 
         <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" name="password" id="password" class="form-control" value="<?= $data['password'] ?>">
+            <input type="password" name="password" id="password"
+                value="<?= $data['password'] ?>"
+                class="form-control <?= (array_key_exists('password', $data['errors'])) ? 'is-invalid' : '' ?>"     
+            >
+            <?php if (array_key_exists('password', $data['errors'])): ?>
+                <div class="invalid-feedback"><?= $data['errors']['password'] ?></div>
+            <?php endif; ?>
         </div>
 
         <div class="form-group">
