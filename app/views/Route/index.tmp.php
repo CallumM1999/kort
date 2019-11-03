@@ -9,7 +9,7 @@
         @foreach($data['routes'] as $route)
             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                 <span><?= $route['name'] ?>
-                    <span class=" ml-1 badge badge-<?= ($route['enabled'] ? 'primary' : 'danger') ?> badge-pill">
+                    <span class=" ml-1 badge badge-<?= ($route['enabled'] ? 'success' : 'danger') ?> badge-pill">
                         <?= ($route['enabled'] ? 'enabled' : 'disabled') ?>
                     </span>
                 </span>
