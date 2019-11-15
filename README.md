@@ -8,7 +8,7 @@
 
 ### About
 
-Kort is a website built on top of [Elegenta](https://github.com/CallumM1999/Eleganta), a PHP MVC framework that I built. The purpose of this site was to reinforce what I had learned when building the framework.
+Kort is a website built on top of [Elegenta](https://github.com/thecallum/Eleganta), a PHP MVC framework that I built. The purpose of this site was to reinforce what I had learned when building the framework.
 
 The main focus was the functionality, so I kept design simple and used Bootstrap.
 
@@ -16,7 +16,7 @@ I also used [Redis](https://redis.io/) in the framework. I will admit, this prob
 
 ### What I learned
 
-Overall, the project was a success. I learned a huge amount about PHP, Composer, Redis, deployment and the structuring of a project. Learn more about the framework [here](https://github.com/CallumM1999/Eleganta).
+Overall, the project was a success. I learned a huge amount about PHP, Composer, Redis, deployment and the structuring of a project. Learn more about the framework [here](https://github.com/thecallum/Eleganta).
 
 ### Deployment
 
