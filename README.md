@@ -1,14 +1,14 @@
 # Kort
 
- PHP link shortener.
+PHP link shortener using Redis
 
 ## About
 
-Kort is a website built on top of [Elegenta](https://github.com/thecallum/Eleganta), a PHP MVC framework that I built. The purpose of this site was to reinforce what I had learned when building the framework.
+Kort is a PHP app build on top of [Elegenta MVC Framework](https://github.com/thecallum/Eleganta) that allows you to add long unfriendly URL's, and get a small fiendly link back. 
 
-The main focus was the functionality, so I kept design simple and used Bootstrap.
+I created Kort because I wanted to build a project using Elegenta, an MVC PHP framework that I build in a previous project.
 
-I also used [Redis](https://redis.io/) in the framework. I will admit, this probably wasn't the best use-case for Redis, however, I wanted to learn it.
+Kort also uses Redis. In hindsight, this wasn't a great usecase for Redis, however, I wanted to try it out, and I learned a lot from using it.
 
 ## What I learned
 
