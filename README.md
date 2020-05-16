@@ -4,11 +4,11 @@ PHP link shortener using Redis
 
 ## About
 
-Kort is a PHP app build on top of [Elegenta MVC Framework](https://github.com/thecallum/Eleganta) that allows you to add long unfriendly URL's, and get a small fiendly link back. 
+Kort is a PHP app build on top of [Elegenta MVC Framework](https://github.com/thecallum/Eleganta) that allows you to add long unfriendly URL's, and get a small friendly link back. 
 
 I created Kort because I wanted to build a project using Elegenta, an MVC PHP framework that I build in a previous project.
 
-Kort also uses Redis. In hindsight, this wasn't a great usecase for Redis, however, I wanted to try it out, and I learned a lot from using it.
+Kort also uses Redis. In hindsight, this wasn't a great use-case for Redis, however, I wanted to try it out, and I learned a lot from using it.
 
 ## What I learned
 
@@ -16,7 +16,7 @@ Overall, the project was a success. I learned a huge amount about PHP, Composer,
 
 ## Deployment
 
-Once I had build the project locally, it was easy to deploy on Heroku.
+Once I had built the project locally, it was easy to deploy on Heroku.
 First, I created a Heroku app using the official PHP build pack.
 
     heroku create --buildpack heroku/php
